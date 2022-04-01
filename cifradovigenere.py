@@ -4,7 +4,7 @@ import numpy as np
 LETRAS = ("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ")    
 
 def cifrado3(mensaje):
-    mensaje=input("Ingresar mensaje a cifrar: ")
+    ###mensaje=input("Ingresar mensaje a cifrar: ")
     clave="COMUNICACIONESDOS"
     traducido=[]
     indice_clave=0
@@ -60,13 +60,13 @@ def cifrado3(mensaje):
     return mensaje
 
 def descifrado3(mensaje):
-    mensaje1=input("Ingresar mensaje a descifrar: ")
+    ###mensaje1=input("Ingresar mensaje a descifrar: ")
     clave="COMUNICACIONEDOS"
     traducido=[]
     indice_clave=0
     clave=clave.upper()
 
-    mensaje=hamming.serial_Ascii(mensaje1) # convierte de serial a ascii
+    mensaje=hamming.serial_Ascii(mensaje) # convierte de serial a ascii
 
 
     for symbol in mensaje:

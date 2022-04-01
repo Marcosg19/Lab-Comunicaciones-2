@@ -14,7 +14,7 @@ import random
 
 def Encriptar(texto):
     #texto = input("Introduzca el texto: ")
-    texto=texto.upper()
+    texto=texto
     
     
     indice= random.randint(1, 3)
@@ -23,7 +23,6 @@ def Encriptar(texto):
     
     
     if (indice==1):
-        
         texto=cifdefHill.cifrado(texto)
     elif (indice==2):
         texto=cifradocesar.cifradocesar(texto)

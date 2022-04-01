@@ -75,7 +75,7 @@ def aleatorio (entrada):
     
 
     PosicionAleatoria = random.randint(0, 14)
-    print("valor aleatorio es:  ",(PosicionAleatoria))
+    ###print("valor aleatorio es:  ",(PosicionAleatoria))
     entrada[PosicionAleatoria]=not(entrada[PosicionAleatoria])
 
     
@@ -166,7 +166,7 @@ def recolecta_el_dato(datoRecibido):
 
 
     datoOriginal = str(d5)+str(d6)+str(d7)+str(d9)+str(d10)+str(d11)+str(d12)+str(d13)+str(d14)+str(d15)#+str(d16)
-    print("datoOriginal es:  ",datoOriginal)
+    ###print("datoOriginal es:  ",datoOriginal)
     return datoOriginal
 #convierte un caracter ascii y devuelve un haming 1511
 def char_hamming1511(c):
@@ -186,11 +186,11 @@ def char_hamming1511(c):
     resta=11-(len(binario))
     """Datobin Guarda el codigo binario del ascii"""
     for i in range(2, len(binario)):
-        print("datobin",resta+i-1,"    i",i)
+        ###print("datobin",resta+i-1,"    i",i)
         datobin[resta+i]=binario[i]
         
     
-    print(binario,"asi los guarda", datobin,"   resta",resta )
+    ###print(binario,"asi los guarda", datobin,"   resta",resta )
 
     """calcula la paridad de los datos"""
     envio=hamming1511(datobin)
@@ -202,7 +202,7 @@ def serial_Ascii (texto):
     memoria=0
 
     
-    print("\n\r DATO RECIBIDO        ERROR EN       DATO CORREGIDO      CARACTER RECIBIDO\n")
+    ###print("\n\r DATO RECIBIDO        ERROR EN       DATO CORREGIDO      CARACTER RECIBIDO\n")
     
     mensajeParaHill=""
 
@@ -218,7 +218,7 @@ def serial_Ascii (texto):
 
     nchar=nbits/15   #calcula la cantidad de caracteres recibidos
 
-    print(nbits,nchar)
+    ###print(nbits,nchar)
 
 
     # contadores para serie a paralelo
@@ -262,9 +262,9 @@ def serial_Ascii (texto):
         if (caracterAscii == ',' and memoria==0):
              memoria=1
     
-        if(memoria ==0):
+        ###if(memoria ==0):
         
-            print(datoRecibido,"        ",valorRuido,"        ",ipr(envioCorregido),"             ",caracterAscii)
+            ###print(datoRecibido,"        ",valorRuido,"        ",ipr(envioCorregido),"             ",caracterAscii)
    
     
     return mensajeParaHill

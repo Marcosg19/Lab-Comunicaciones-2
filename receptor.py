@@ -7,7 +7,7 @@ import cifradovigenere
 def Desencriptar(texto):
 
     #texto = input("Introduzca el texto: ");
-    texto=texto.upper()
+    texto=texto
     
     npunto= texto.find(".")
     

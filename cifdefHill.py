@@ -54,7 +54,7 @@ def descifrado(texto):
 
     
 
-    texto=descifradohill.serial_to_parAscii(texto)
+    texto=descifradohill.serial_a_Ascii(texto)
 
     TextoDescodificado=descifradohill.descodhill26(texto)
 
@@ -76,3 +76,10 @@ def descifrado(texto):
     #print("\n\n\r El mensaje descodificado es:  ",TextoDescodificado)
 
     return TextoDescodificado
+
+
+#texto= input('Ingrese mensaje a cifrar: ')
+#print(cifrado(texto))
+
+
+#print(descifrado(input('Ingrese bits a descifrar: ')))

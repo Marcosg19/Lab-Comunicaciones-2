@@ -42,8 +42,8 @@ def descodhill26(Texto):
     #imprimir_matriz(Clave)
 
     #diccionario_letras = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25, ' ': 26}
-    diccionario_letras = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'Ñ': 14,'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21, 'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26, '1':27, '2':28, '3':29, '4':30, '5':31, '6':32, '7':33, '8':34, '9':35, ' ':' '}
-    abecedario = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ123456789 "
+    diccionario_letras = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'Ñ': 14,'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21, 'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26,' ':' '}
+    abecedario = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
     #abecedario = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
 
     #Inversa de una matriz A^-1=1/[A] * (A*)^T
@@ -119,7 +119,7 @@ def descodhill26(Texto):
     return mensajehill
 
 
-def serial_to_parAscii (texto):
+def serial_a_Ascii (texto):
     memoria=0
 
     
