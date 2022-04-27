@@ -7,7 +7,7 @@ def cifrado3(mensaje):
     ###mensaje=input("Ingresar mensaje a cifrar: ")
     clave="COMUNICACIONESDOS"
     traducido=[]
-    indice_clave=0
+    indice_clave=3
     clave=clave.upper()
 
     mensaje3=""
@@ -63,7 +63,7 @@ def descifrado3(mensaje):
     ###mensaje1=input("Ingresar mensaje a descifrar: ")
     clave="COMUNICACIONEDOS"
     traducido=[]
-    indice_clave=0
+    indice_clave=3
     clave=clave.upper()
 
     mensaje=hamming.serial_Ascii(mensaje) # convierte de serial a ascii
@@ -84,4 +84,8 @@ def descifrado3(mensaje):
         else:
             traducido.append(symbol)
     return ('').join(traducido)
-    
+
+###mensaje= input('Ingresar mensaje: ')
+###print(cifrado3(mensaje))
+
+###print(descifrado3(mensaje))

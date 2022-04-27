@@ -5,13 +5,6 @@ import cifradovigenere
 import random
 
 
-#cifrado a emplear de forma aleatoria
-# 1--- hill
-# 2----cesar
-# 3----crack3
-
-
-
 def Encriptar(texto):
     #texto = input("Introduzca el texto: ")
     texto=texto

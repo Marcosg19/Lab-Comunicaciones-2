@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox
 
-serialPort = serial.Serial(port='COM1', baudrate=9600)
+serialPort = serial.Serial(port='COM3', baudrate=9600)
 
 HOST = 'localhost'
 PORT = 1234

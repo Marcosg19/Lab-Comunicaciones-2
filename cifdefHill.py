@@ -81,5 +81,4 @@ def descifrado(texto):
 #texto= input('Ingrese mensaje a cifrar: ')
 #print(cifrado(texto))
 
-
 #print(descifrado(input('Ingrese bits a descifrar: ')))

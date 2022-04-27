@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 # -*-coding:Utf-8 -*
 import sys,os, time
+import platform
 from random import randint
-import serial
-import serial.tools.list_ports
+import serial,serial.tools.list_ports
 #interface import
 import PySide2
 from PySide2.QtWidgets import QApplication, QMainWindow,QDesktopWidget, QTextEdit, QLineEdit, QPushButton, QMessageBox, QWidget, QGridLayout, QTextEdit, QGroupBox, QVBoxLayout,QHBoxLayout, QComboBox, QLabel
@@ -13,9 +13,8 @@ import emisor
 
 
 
-__prgm__ = 'Chat Serial'
+__prgm__ = 'Chat Monitor'
 __version__ = '0.0.2'
-
 def find_USB_device(USB_DEV_NAME=None):
     myports = [tuple(p) for p in list(serial.tools.list_ports.comports())]
     print(myports)
@@ -33,7 +32,7 @@ def find_USB_device(USB_DEV_NAME=None):
                 print(device)
                 usb_id = device[device.index("COM"):device.index("COM")+4]
             
-                print("{} port is {}".format(USB_DEV_NAME,usb_id))
+                print("{} puerto es {}".format(USB_DEV_NAME,usb_id))
                 return usb_id
                 
 class GroupClass(QGroupBox):
@@ -66,8 +65,6 @@ class GroupClass(QGroupBox):
         sendBtn = QPushButton("Enviar")
         sendBtn.clicked.connect(self.sendData)
         #hbox.addWidget(button)
-        readBtn = QPushButton("Enviar")
-        readBtn.clicked.connect(self.readData)
         
         titlelbl=  QLabel("Enter")
         self.title = QLineEdit("")
@@ -87,8 +84,8 @@ class GroupClass(QGroupBox):
         self.fields.addWidget(titlelbl,1,0,1,1)
         self.fields.addWidget(self.title,1,1,1,1)
         self.fields.addWidget(sendBtn,1,2,1,1)
-        self.fields.addWidget(desclbl,3,0,1,1)
-        self.fields.addWidget(self.desc,4,1,1,1)
+        self.fields.addWidget(desclbl,2,0,1,1)
+        self.fields.addWidget(self.desc,3,1,1,1)
         #self.fields.addWidget(self.add,2,2,1,1)
         #self.fields.addWidget(self.rem,3,2,1,1)
         self.setLayout(self.fields)
@@ -106,15 +103,15 @@ class GroupClass(QGroupBox):
             if answer!="":
                 self.desc.setText(self.desc.toPlainText()+"\n>> Conectado!\n"+answer)
         else:
-            self.desc.setText(">> {} Ya abierto!\n".format(self.typeBox.currentText()))
+            self.desc.setText(">> {} está abierto!\n".format(self.typeBox.currentText()))
             
     def sendData(self):
         if self.serial.isOpen():
             if self.title.text() != "":
-                self.serial.write(self.title.text().encode())
+                self.serial.write(emisor.Encriptar(self.title.text().encode()))
                 answer=self.readData()
                 if(self.title.text().encode()=="scan"):
-                    print("scanning results -> "+answer.ind("0x"))
+                    print("Resultados de escaneo -> "+answer.find("0x"))
                 else:
                     print(answer.find("0x"))
                 self.desc.setText(self.desc.toPlainText()+"\n"+answer)
@@ -138,7 +135,7 @@ class SerialInterface(QMainWindow):
         self.height=350
         
         self.resize(self.width, self.height)
-        self.setWindowIcon(QIcon('./resources/logo-100.png'))
+        self.setWindowIcon(QIcon('./icono.png'))
         self.setWindowTitle(__prgm__)
         
         #center window on screen

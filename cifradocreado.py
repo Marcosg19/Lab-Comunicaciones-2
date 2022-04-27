@@ -39,11 +39,11 @@ def cifrado3(texto):
                           ' ': ' ', ',': ',', '?': '?', '¿': '¿', '.': '.', '0': '1', '1': '2' , '2': '3' , '3': '4' , '4': '5' , '5': '6' , '6': '7' , '7': '8', '8': '9', '9': '0'}
     #print(diccionario_letras)
 
-    mensajeCesar=""
+    mensajeCreado=""
 
     for c in texto:
     
-        mensajeCesar=mensajeCesar+diccionario_letras[c]
+        mensajeCreado=mensajeCreado+diccionario_letras[c]
     
         #print(diccionario_letras.get(c))
 
@@ -51,13 +51,13 @@ def cifrado3(texto):
 
 
 
-    print(mensajeCesar)
+    print(mensajeCreado)
 
 
     #memoria=0
     mensaje=""
 
-    for c in mensajeCesar:
+    for c in mensajeCreado:
     
         Ruido= np.zeros(15) #vector con ruido
     
@@ -115,7 +115,6 @@ def descifrado3(texto):
                           ' ': ' ', ',': ',', '?': '?', '¿': '¿', '.': '.', '0':'1', '1': '2' , '2': '3' , '3': '4' , '4': '5' , '5': '6' , '6': '7' , '7': '8', '8': '9', '9': '0'}
 
     diccionario_letras = {v: k for k, v in diccionario_letras.items()} #invierte de llaves a valores
-#HOLA COMO ESTAS ESTA ES PRUEBA DE TEXTO
 
     #texto = input("Introduzca el texto para el Descifrado cesar:    ");
 

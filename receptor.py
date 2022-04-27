@@ -2,8 +2,6 @@ import cifdefHill
 import cifradocesar
 import cifradovigenere
 
-
-
 def Desencriptar(texto):
 
     #texto = input("Introduzca el texto: ");
