@@ -1,123 +1,162 @@
-# import required modules
-import socket
-import serial 
-import threading
-#import servidor
-#import receptor
-import tkinter as tk
-from tkinter import scrolledtext
-from tkinter import messagebox
+#!/usr/bin/python3
+# -*-coding:Utf-8 -*
+import sys,os, time
+import platform
+from random import randint
+import serial,serial.tools.list_ports
+#interface import
+import PySide2
+from PySide2.QtWidgets import QApplication, QMainWindow,QDesktopWidget, QTextEdit, QLineEdit, QPushButton, QMessageBox, QWidget, QGridLayout, QTextEdit, QGroupBox, QVBoxLayout,QHBoxLayout, QComboBox, QLabel
+from PySide2.QtGui import QIcon, QScreen
+import receptor
+import emisor
 
-serialPort = serial.Serial(port='COM3', baudrate=9600)
 
-HOST = 'localhost'
-PORT = 1234
 
-DARK_GREY = '#121212'
-MEDIUM_GREY = '#1F1B24'
-OCEAN_BLUE = '#464EB8'
-WHITE = "white"
-FONT = ("Helvetica", 17)
-BUTTON_FONT = ("Helvetica", 15)
-SMALL_FONT = ("Helvetica", 13)
-
-# Creating a socket object
-# AF_INET: we are going to use IPv4 addresses
-# SOCK_STREAM: we are using TCP packets for communication
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-def add_message(message):
-    message_box.config(state=tk.NORMAL)
-    message_box.insert(tk.END, message + '\n')
-    message_box.config(state=tk.DISABLED)
-
-def connect():
-
-    # try except block
-    try:
-
-        # Connect to the server
-        client.connect((HOST, PORT))
-        print("Successfully connected to server")
-        add_message("[SERVER] Successfully connected to the server")
-    except:
-        messagebox.showerror("Unable to connect to server", f"Unable to connect to server {HOST} {PORT}")
-
-    username = username_textbox.get()
-    if username != '':
-        client.sendall(username.encode())
+__prgm__ = 'Chat Monitor'
+__version__ = '0.0.2'
+def find_USB_device(USB_DEV_NAME=None):
+    myports = [tuple(p) for p in list(serial.tools.list_ports.comports())]
+    print(myports)
+    usb_port_list = [p[0] for p in myports]
+    usb_device_list = [p[1] for p in myports]
+    print(usb_device_list)
+    if USB_DEV_NAME is None:
+        return myports
     else:
-        messagebox.showerror("Invalid username", "Username cannot be empty")
-
-    threading.Thread(target=listen_for_messages_from_server, args=(client, )).start()
-
-    username_textbox.config(state=tk.DISABLED)
-    username_button.config(state=tk.DISABLED)
-
-def send_message():
-    message = message_textbox.get()
-    if message != '':
-        client.sendall(message.encode())
-        message_textbox.delete(0, len(message))
-    else:
-        messagebox.showerror("Empty message", "Message cannot be empty")
-
-root = tk.Tk()
-root.geometry("600x600")
-root.title("Messenger Client")
-root.resizable(False, False)
-
-root.grid_rowconfigure(0, weight=1)
-root.grid_rowconfigure(1, weight=4)
-root.grid_rowconfigure(2, weight=1)
-
-top_frame = tk.Frame(root, width=600, height=100, bg=DARK_GREY)
-top_frame.grid(row=0, column=0, sticky=tk.NSEW)
-
-middle_frame = tk.Frame(root, width=600, height=400, bg=MEDIUM_GREY)
-middle_frame.grid(row=1, column=0, sticky=tk.NSEW)
-
-bottom_frame = tk.Frame(root, width=600, height=100, bg=DARK_GREY)
-bottom_frame.grid(row=2, column=0, sticky=tk.NSEW)
-
-username_label = tk.Label(top_frame, text="Enter username:", font=FONT, bg=DARK_GREY, fg=WHITE)
-username_label.pack(side=tk.LEFT, padx=10)
-
-username_textbox = tk.Entry(top_frame, font=FONT, bg=MEDIUM_GREY, fg=WHITE, width=23)
-username_textbox.pack(side=tk.LEFT)
-
-username_button = tk.Button(top_frame, text="Join", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=connect)
-username_button.pack(side=tk.LEFT, padx=15)
-
-message_textbox = tk.Entry(bottom_frame, font=FONT, bg=MEDIUM_GREY, fg=WHITE, width=38)
-message_textbox.pack(side=tk.LEFT, padx=10)
-
-message_button = tk.Button(bottom_frame, text="Send", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=send_message)
-message_button.pack(side=tk.LEFT, padx=10)
-
-message_box = scrolledtext.ScrolledText(middle_frame, font=SMALL_FONT, bg=MEDIUM_GREY, fg=WHITE, width=67, height=26.5)
-message_box.config(state=tk.DISABLED)
-message_box.pack(side=tk.TOP)
-
-
-def listen_for_messages_from_server(client):
-
-    while 1:
-
-        message = client.recv(2048).decode('utf-8')
-        if message != '':
-            username = message.split("~")[0]
-            content = message.split('~')[1]
-
-            add_message(f"[{username}] {content}")
+        USB_DEV_NAME=str(USB_DEV_NAME).replace("'","").replace("b","")
+        for device in usb_device_list:
+            print("{} -> {}".format(USB_DEV_NAME,device))
+            print(USB_DEV_NAME in device)
+            if USB_DEV_NAME in device:
+                print(device)
+                usb_id = device[device.index("COM"):device.index("COM")+4]
             
-        else:
-            messagebox.showerror("Error", "Message recevied from client is empty")
-
-# main function
-def main():
-
-    root.mainloop()
+                print("{} puerto es {}".format(USB_DEV_NAME,usb_id))
+                return usb_id
+                
+class GroupClass(QGroupBox):
+    def __init__(self,widget,title="Configuración de conexión"):
+        super().__init__(widget)
+        self.widget=widget
+        self.title=title
+        self.sep="-"
+        self.id=-1
+        self.name=''
+        self.portlist=find_USB_device()
+        self.items=[p[0] for p in self.portlist]#["COM1","COM2"]
+        self.serial=None
+        #self.motionDict={"POSITION BASED":" Describe motion based on position","VELOCITY BASED":" Describe motion based on velocity", "LOOP":" Describe loop motion", "PINGPONG":" Describe pingpong motion", "INTERACTIF":" Describe interactive motion"}
+        self.init()
+        
+    def init(self):
+        self.setTitle(self.title)
+        
+        self.selectlbl = QLabel("Seleccionar puerto:")
+        #label
+        self.typeBox=QComboBox()
+        self.typeBox.addItems(self.items)#database getMotionType()
+        self.typeBox.setCurrentIndex(self.typeBox.count()-1)
+        
+        #btn
+        button = QPushButton("Conectar")
+        button.clicked.connect(self.connect)
+        #hbox.addWidget(button)
+        sendBtn = QPushButton("Enviar")
+        sendBtn.clicked.connect(self.sendData)
+        #hbox.addWidget(button)
+        
+        titlelbl=  QLabel("Enter")
+        self.title = QLineEdit("")
+        desclbl=QLabel("Consola")
+        self.desc = QTextEdit("")
+        
+        #self.add=QPushButton("Ajouter/Modifier")
+        #self.add.clicked.connect(self.addItem)
+        #self.rem=QPushButton("Supprimer")
+        #self.rem.clicked.connect(self.remItem)
+            
+        self.fields=QGridLayout()
+        self.fields.addWidget(self.selectlbl,0,0,1,1)
+        self.fields.addWidget(self.typeBox,0,1,1,1)
+        self.fields.addWidget(button,0,2,1,1)
+        
+        self.fields.addWidget(titlelbl,1,0,1,1)
+        self.fields.addWidget(self.title,1,1,1,1)
+        self.fields.addWidget(sendBtn,1,2,1,1)
+        self.fields.addWidget(desclbl,2,0,1,1)
+        self.fields.addWidget(self.desc,3,1,1,1)
+        #self.fields.addWidget(self.add,2,2,1,1)
+        #self.fields.addWidget(self.rem,3,2,1,1)
+        self.setLayout(self.fields)
     
-if __name__ == '__main__':
-    main()
+    def connect(self):
+        
+        self.desc.setText("")
+        self.desc.setText(">> Tratando de conectarse al puerto %s ..." % self.typeBox.currentText())
+        #with serial.Serial(self.typeBox.currentText(), 115200, timeout=1) as self.serial:
+        if self.serial is None:
+            self.serial=serial.Serial(self.typeBox.currentText(), 57600, timeout=1)
+            time.sleep(0.05)
+            #self.serial.write(b'hello')
+            answer=self.readData()
+            if answer!="":
+                self.desc.setText(self.desc.toPlainText()+"\n>> Conectado!\n"+answer)
+        else:
+            self.desc.setText(">> {} está abierto!\n".format(self.typeBox.currentText()))
+            
+    def sendData(self):
+        if self.serial.isOpen():
+            if self.title.text() != "":
+                self.serial.write(self.title.text().encode())
+                answer=self.readData()
+                if(self.title.text().encode()=="scan"):
+                    print("Resultados de escaneo -> "+answer.find("0x"))
+                else:
+                    print(answer.find("0x"))
+                self.desc.setText(self.desc.toPlainText()+"\n"+answer)
+                    
+    def readData(self):
+        #self.serial.flush() # it is buffering. required to get the data out *now*
+        answer=""
+        while  self.serial.inWaiting()>0: #self.serial.readable() and
+            
+            print(self.serial.inWaiting())
+            answer += "\n"+str(self.serial.readline()).replace("\\r","").replace("\\n","").replace("'","").replace("b","")
+            #print(self.serial.inWaiting())
+        #self.desc.setText(self.desc.toPlainText()+"\n"+answer)
+        return answer    
+    
+            
+class SerialInterface(QMainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.width=650
+        self.height=350
+        
+        self.resize(self.width, self.height)
+        self.setWindowIcon(QIcon('./icono.png'))
+        self.setWindowTitle(__prgm__)
+        
+        #center window on screen
+        qr = self.frameGeometry()
+        cp = QScreen().availableGeometry().center()
+        qr.moveCenter(cp)
+        
+        
+        #init layout
+        centralwidget = QWidget(self)
+        centralLayout=QHBoxLayout(centralwidget)
+        self.setCentralWidget(centralwidget)
+        
+        #add connect group
+        self.connectgrp=GroupClass(self)
+        centralLayout.addWidget(self.connectgrp)
+        
+            
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    frame = SerialInterface()
+    frame.show()
+    sys.exit(app.exec_())
+

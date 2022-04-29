@@ -12,7 +12,7 @@ def cifrado(texto):
     #print("\n El texto a enviar es:   ",texto,"\n")
 
     texto=cifradohill.EncripHamming(texto) # CONVIERTE A HILL
-    #print("Texto con cifrado hill:    ",texto,"\n")
+    print('Texto cifrado es: ',texto)
     mensaje=""
 
     #print("\n\rEnvio        codigo hamming1511       Envio con ruido aleatorio\n")

@@ -31,7 +31,7 @@ def cifrado3(mensaje):
 
     mensaje3=('').join(traducido)
 
-    print(mensaje3)
+    print('Texto cifrado es: ',mensaje3)
     mensaje=""
 
     for c in mensaje3:
@@ -61,7 +61,7 @@ def cifrado3(mensaje):
 
 def descifrado3(mensaje):
     ###mensaje1=input("Ingresar mensaje a descifrar: ")
-    clave="COMUNICACIONEDOS"
+    clave="COMUNICACIONESDOS"
     traducido=[]
     indice_clave=3
     clave=clave.upper()

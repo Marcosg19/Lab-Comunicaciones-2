@@ -2,9 +2,9 @@ import cifdefHill
 import cifradocesar
 import cifradovigenere
 
-def Desencriptar(texto):
+def Desencriptar_(texto):
 
-    #texto = input("Introduzca el texto: ");
+
     texto=texto
     
     npunto= texto.find(".")
@@ -14,10 +14,6 @@ def Desencriptar(texto):
     
     texto=texto[npunto+1:len(texto)]
     
-    
-    #print(npunto, "  " , indice ,"     ", texto)
-    
-    #print (indice)
     
     if (indice=='1'):
         
@@ -32,6 +28,7 @@ def Desencriptar(texto):
     return texto
 
 
-texto = input("Desencriptar: ")
 
-print(Desencriptar(texto))
+#texto = input("Desencriptar: ")
+
+#print(Desencriptar_(texto))

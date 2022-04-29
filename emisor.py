@@ -23,14 +23,15 @@ def Encriptar(texto):
         texto=cifradovigenere.cifrado3(texto)
         
     
-    
+    texto1 = texto
     texto=str(indice)+'.'+ texto
     
-    #print(texto)
+    
+    print(texto1)
 
     return texto
 
 
-texto = input("Encriptar: ")
+#texto = input("Encriptar: ")
 
-print(Encriptar(texto))
+#print(Encriptar(texto))

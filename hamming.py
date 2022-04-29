@@ -210,7 +210,7 @@ def serial_Ascii (texto):
     envioCorregido= np.zeros(15)
 
 
-    texto = input("Introduzca los bits: ")
+    #texto = input("Introduzca los bits: ")
     texto = texto.upper().strip().replace("", "")
 
 
